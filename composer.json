@@ -1,0 +1,43 @@
+{
+    "name": "nierto/gcore-contracts",
+    "description": "Interface contracts for gCore premium managers - enables graceful degradation and third-party implementations",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "gcore",
+        "contracts",
+        "interfaces",
+        "premium",
+        "wordpress",
+        "framework"
+    ],
+    "authors": [
+        {
+            "name": "Nierto",
+            "email": "dev@nierto.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "gCore\\Contracts\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "gCore\\Contracts\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
+    }
+}

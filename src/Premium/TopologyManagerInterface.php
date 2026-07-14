@@ -3,7 +3,7 @@
  * TopologyManager Interface
  *
  * Contract for service mesh topology visualization and management
- * using GSD's geometric discovery capabilities.
+ * using gNode's geometric discovery capabilities.
  *
  * Premium implementations provide:
  * - Service mesh visualization in 3D space
@@ -30,7 +30,7 @@ use gCore\Contracts\Shared\ModuleInterface;
  * Interface TopologyManagerInterface
  *
  * Defines the contract for service mesh topology operations.
- * Implementations may use GSD for geometric discovery (premium) or
+ * Implementations may use gNode for geometric discovery (premium) or
  * provide no-op stubs for graceful degradation (free tier).
  */
 interface TopologyManagerInterface extends ModuleInterface
@@ -122,9 +122,9 @@ interface TopologyManagerInterface extends ModuleInterface
     public function getDimension(string $name): ?array;
 
     /**
-     * Get capability dimensions from GSD
+     * Get capability dimensions from gNode
      *
-     * @return array GSD capability dimensions
+     * @return array gNode capability dimensions
      */
     public function getCapabilityDimensions(): array;
 
@@ -148,10 +148,10 @@ interface TopologyManagerInterface extends ModuleInterface
     /**
      * Smart registration with hash-based idempotency
      *
-     * Only registers with GSD if the configuration has changed.
+     * Only registers with gNode if the configuration has changed.
      * Prevents unnecessary re-registration while detecting config changes.
      *
-     * @param array $capabilities Capability vector for GSD topology
+     * @param array $capabilities Capability vector for gNode topology
      * @param array $metadata Service metadata (type, site_id, etc.)
      * @param bool $force Force registration even if hash matches
      * @return bool Success status
@@ -168,7 +168,7 @@ interface TopologyManagerInterface extends ModuleInterface
     public function forceRegister(array $capabilities = [], array $metadata = []): bool;
 
     /**
-     * Deregister current service from GSD topology
+     * Deregister current service from gNode topology
      *
      * @return bool Success status
      */
@@ -201,7 +201,7 @@ interface TopologyManagerInterface extends ModuleInterface
     /**
      * Check if service is currently registered in topology
      *
-     * @return bool True if service exists in GSD topology
+     * @return bool True if service exists in gNode topology
      */
     public function isRegisteredInTopology(): bool;
 

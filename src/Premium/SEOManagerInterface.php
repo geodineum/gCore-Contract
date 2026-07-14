@@ -30,7 +30,7 @@ use gCore\Contracts\Shared\ModuleInterface;
  * Interface SEOManagerInterface
  *
  * Defines the contract for SEO operations.
- * Implementations may use GSD for caching (premium) or
+ * Implementations may use gNode for caching (premium) or
  * provide basic no-op stubs for graceful degradation (free tier).
  */
 interface SEOManagerInterface extends ModuleInterface

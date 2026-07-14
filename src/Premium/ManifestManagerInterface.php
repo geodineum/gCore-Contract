@@ -3,7 +3,7 @@
  * ManifestManager Interface
  *
  * Contract for PWA (Progressive Web App) manifest management.
- * Premium implementations provide full GSD-backed caching and install tracking.
+ * Premium implementations provide full gNode-backed caching and install tracking.
  * Free-tier stubs provide basic manifest generation without caching.
  *
  * @package     gCore\Contracts
@@ -21,7 +21,7 @@ use gCore\Contracts\Shared\ModuleInterface;
  * Interface ManifestManagerInterface
  *
  * Defines the contract for PWA manifest operations.
- * Implementations may use GSD for caching (premium) or
+ * Implementations may use gNode for caching (premium) or
  * provide basic manifest generation (free tier).
  */
 interface ManifestManagerInterface extends ModuleInterface

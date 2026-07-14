@@ -8,7 +8,7 @@
  * - Form handling with CSRF, rate limiting, honeypot
  * - COMMS stream integration
  *
- * Premium implementations provide full Tera templating via GSD.
+ * Premium implementations provide full Tera templating via gNode.
  * Free-tier stubs provide basic PHP variable substitution.
  *
  * @package     gCore\Contracts

@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://geodineum.com">
+    <img src=".github/geodineum-logo.png" alt="Geodineum" width="128">
+  </a>
+</p>
+
 # gCore Contracts
 
 Interface contracts for gCore premium managers. This package defines the contracts that premium managers must implement, enabling:
@@ -10,7 +16,7 @@ Interface contracts for gCore premium managers. This package defines the contrac
 ## Installation
 
 ```bash
-composer require nierto/gcore-contracts
+composer require geodineum/gcore-contract
 ```
 
 ## Available Interfaces
@@ -104,10 +110,19 @@ This package follows semantic versioning:
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+Licensed under either of
 
-## Related Packages
+* [Apache License, Version 2.0](LICENSE-APACHE)
+* [MIT License](LICENSE-MIT)
 
-- `nierto/gcore` - Full gCore framework
-- `nierto/gcore-stubs` - Free-tier stub implementations
-- `nierto/gsd-client` - GSD (Geometric Service Daemon) client
+at your option.
+
+## Part of the Geodineum ecosystem
+
+This package is the contract layer of [gCore](https://github.com/geodineum/gCore),
+the PHP manager-of-managers framework in the
+[Geodineum](https://github.com/geodineum) ecosystem. Free-tier Stubs inside
+gCore and the Pro implementations both satisfy these interfaces, so callers
+consume the interface and never care which one is installed. Build your own
+implementation against these contracts and gCore's resolver slots it in with
+no caller changes.

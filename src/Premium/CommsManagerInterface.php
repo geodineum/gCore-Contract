@@ -2,7 +2,7 @@
 /**
  * CommsManager Interface
  *
- * Contract for GSD-COMMS notification daemon management including:
+ * Contract for Geodineum-COMMS notification daemon management including:
  * - Multi-tenant site settings management
  * - Message history and statistics
  * - Channel configuration (email, Telegram, SMS)
@@ -30,7 +30,7 @@ use gCore\Contracts\Shared\ModuleInterface;
 /**
  * Interface CommsManagerInterface
  *
- * Defines the contract for GSD-COMMS notification management.
+ * Defines the contract for Geodineum-COMMS notification management.
  */
 interface CommsManagerInterface extends ModuleInterface
 {
@@ -183,7 +183,7 @@ interface CommsManagerInterface extends ModuleInterface
     // =========================================================================
 
     /**
-     * Check if the GSD-COMMS daemon is processing messages
+     * Check if the Geodineum-COMMS daemon is processing messages
      *
      * @param string $siteId Site identifier
      * @param string $environment Environment

@@ -137,7 +137,7 @@ interface InferenceManagerInterface extends ModuleInterface
     // =========================================================================
 
     /**
-     * Get recent audit entries from GSD stream
+     * Get recent audit entries from gNode stream
      *
      * @param int $count Number of entries to retrieve
      * @param string|null $startId Start ID for pagination

@@ -1,8 +1,8 @@
 {
-    "name": "nierto/gcore-contracts",
+    "name": "geodineum/gcore-contract",
     "description": "Interface contracts for gCore premium managers - enables graceful degradation and third-party implementations",
     "type": "library",
-    "license": "MIT",
+    "license": "(MIT OR Apache-2.0)",
     "keywords": [
         "gcore",
         "contracts",
@@ -13,12 +13,15 @@
     ],
     "authors": [
         {
-            "name": "Nierto",
+            "name": "Niels Erik Toren (Nierto)",
             "email": "dev@nierto.com"
         }
     ],
     "require": {
         "php": ">=7.4"
+    },
+    "replace": {
+        "geodineum/gcore-contract": "self.version"
     },
     "autoload": {
         "psr-4": {

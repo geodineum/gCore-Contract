@@ -7,7 +7,7 @@
  *
  * Premium implementations provide:
  * - Service mesh visualization in 3D space
- * - N-dimensional capability space (19 dimensions)
+ * - N-dimensional capability space (23 dimensions)
  * - Smart registration with hash-based idempotency
  * - Geometric service discovery
  * - Custom dimension registration

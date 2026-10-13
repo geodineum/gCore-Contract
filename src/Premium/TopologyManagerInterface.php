@@ -7,7 +7,7 @@
  *
  * Premium implementations provide:
  * - Service mesh visualization in 3D space
- * - N-dimensional capability space (19 dimensions)
+ * - One topology per constellation: 24 slots per shape, axes declared by name
  * - Smart registration with hash-based idempotency
  * - Geometric service discovery
  * - Custom dimension registration
@@ -40,22 +40,20 @@ interface TopologyManagerInterface extends ModuleInterface
     // =========================================================================
 
     /**
-     * Discover services based on capability requirements
+     * Discover services on the one topology by the words of their declaration
      *
-     * Uses geometric distance in n-dimensional capability space.
-     *
-     * @param array $requirements Capability requirements [dimension => minScore]
+     * @param array $requirements Axis name => word (facet), list of words (any of) or [lo, hi] range
      * @param int $limit Maximum number of services to return
-     * @param int $distance Maximum distance in capability space (0 = exact match)
-     * @return array Discovered services with distances
+     * @param string $layer Shape word (site, app, daemon, component, node) or layer key; '3' = every service
+     * @return array Records with service_id, shape, environment, colour, metadata
      */
-    public function discoverServices(array $requirements, int $limit = 10, int $distance = 0): array;
+    public function discoverServices(array $requirements, int $limit = 10, string $layer = '3'): array;
 
     /**
      * Find services matching requirements
      *
-     * @param array $requirements Capability requirements
-     * @return array Matching services
+     * @param array $requirements Axis name => word | words | range
+     * @return array Records with service_id, shape, environment, colour, metadata
      */
     public function findServices(array $requirements): array;
 
@@ -68,30 +66,12 @@ interface TopologyManagerInterface extends ModuleInterface
     public function getServiceDetails(string $serviceId): array;
 
     /**
-     * Calculate distance between two services in capability space
-     *
-     * @param array $service1Capabilities First service capabilities
-     * @param array $service2Capabilities Second service capabilities
-     * @return array Distance information ['distance' => float, 'dimensions' => array]
-     */
-    public function calculateDistance(array $service1Capabilities, array $service2Capabilities): array;
-
-    /**
      * Get optimal load sequence for services
      *
      * @param string $group Service group name
      * @return array Ordered service list
      */
     public function getLoadSequence(string $group = 'default'): array;
-
-    /**
-     * Store complete topology
-     *
-     * @param array $topology Topology data
-     * @param int $dimensions Number of dimensions
-     * @return bool Success status
-     */
-    public function storeTopology(array $topology, int $dimensions = 9): bool;
 
     // =========================================================================
     // DIMENSION MANAGEMENT

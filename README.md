@@ -41,6 +41,7 @@ composer require geodineum/gcore-contract
 | Interface | Purpose |
 |-----------|---------|
 | `ModuleInterface` | Base interface for all managers |
+| `PaymentGatewayInterface` | Provider-neutral payments (start, status, refund, readiness); a consumer names the class in its site config `payment_gateway` |
 
 ## Usage
 

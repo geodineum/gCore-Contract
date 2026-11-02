@@ -50,8 +50,16 @@ interface PaymentGatewayInterface
      *   amount          {currency: 'EUR', value: '12.50'}  (exact decimal string)
      *   description     what the cardholder sees on their statement (max 255)
      *   return_url      where the customer comes back to
-     *   idempotency_key the caller's key; the same key returns the same payment
+     *   idempotency_key required; the same key returns the same payment, and a start
+     *                   without one is refused (a retry would be a second charge)
      *   metadata        optional, small, no personal data beyond an order id
+     *   lines           optional order lines, each {description, quantity (int),
+     *                   unitPrice, vatRate?, discountAmount?, sku?, type?} with exact
+     *                   decimal strings; they must sum to amount, or the start is refused
+     *   method          optional provider method id (e.g. 'ideal'), to skip the method choice
+     *   locale          optional, e.g. 'nl_NL'
+     *   billing_address, shipping_address  optional {givenName, familyName, email,
+     *                   streetAndNumber, postalCode, city, country}; pay-later methods need them
      *
      * @return array{ok:bool, id:?string, status:?string, checkout_url:?string, error:?string}
      */
@@ -61,7 +69,8 @@ interface PaymentGatewayInterface
     public function paymentStatus(string $siteId, string $paymentId): ?string;
 
     /**
-     * Refund part or all of a paid payment. The same idempotency key never refunds twice.
+     * Refund part or all of a paid payment. The same idempotency key never refunds twice;
+     * an empty key is refused.
      *
      * @param array{currency:string, value:string}|null $amount null refunds the rest
      * @return array{ok:bool, error:?string}

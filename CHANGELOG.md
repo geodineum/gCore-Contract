@@ -7,6 +7,7 @@ All notable changes to this project are documented here. The format follows Keep
 ### Added
 
 - `Shared\PaymentGatewayInterface`: the provider-neutral way a module takes money. Exact decimal amounts, status only from a fresh read, idempotent start and refund on the caller's key. gCore-Mollie implements it.
+- `PaymentGatewayInterface::startPayment` documents optional `lines`, `method`, `locale`, `billing_address`, `shipping_address`; `idempotency_key` is required (start and refund refuse an empty key).
 
 ### Breaking: the one topology
 

@@ -236,8 +236,10 @@ class EventStore
         $secret = array_intersect_key($state, array_flip($sensitive));
         if ($secret !== []) {
             $fields['sx'] = implode(',', array_keys($secret));
-            // The person the personal fields belong to: the document itself when it holds them.
-            $fields['sj'] = (string)($state['customer'] ?? $state['agent'] ?? $id);
+            // The person the personal fields belong to (an id): `subject`, `customer` or `agent` when the
+            // document names one, else the document itself.
+            $who = $state['subject'] ?? $state['customer'] ?? $state['agent'] ?? $id;
+            $fields['sj'] = is_string($who) && $who !== '' ? $who : $id;
             if ($this->sealer !== null) {
                 try {
                     $fields['sc'] = $this->sealer->seal((string)json_encode($secret, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),

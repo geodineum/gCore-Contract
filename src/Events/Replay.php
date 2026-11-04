@@ -29,7 +29,8 @@ final class Replay
             }
             $key = $m[1] . '|' . (string)$e['id'];
             if (!isset($latest[$key]) || (int)$e['v'] >= (int)$latest[$key]['v']) {
-                $latest[$key] = ['type' => $m[1], 'verb' => $m[2], 'id' => (string)$e['id'], 'v' => (int)$e['v'], 'p' => (string)$e['p']];
+                $latest[$key] = ['type' => $m[1], 'verb' => $m[2], 'id' => (string)$e['id'], 'v' => (int)$e['v'], 'p' => (string)$e['p'],
+                    'eh' => preg_match('/\A[0-9a-f]{64}\z/', (string)($e['eh'] ?? '')) ? (string)$e['eh'] : null];
             }
         }
         ksort($latest, SORT_STRING);
@@ -40,10 +41,12 @@ final class Replay
             $doc = json_decode($x['p'], true);
             [$index, $member] = $indexOf($x['type'], $x['id'], $doc);
             $map = $emailMaps[$x['type']] ?? null;
+            // the email itself, or its hash when the event's personal fields were sealed
+            $eh = is_array($doc) && isset($doc['email']) ? hash('sha256', (string)$doc['email']) : $x['eh'];
             if ($x['verb'] === 'deleted') {
                 $kv->delete($docKey);
-                if ($map !== null && is_array($doc) && isset($doc['email'])) {
-                    $kv->hSet(EventStore::keyFor($ns, $site, 'map', $map), hash('sha256', (string)$doc['email']), '');
+                if ($map !== null && $eh !== null) {
+                    $kv->hSet(EventStore::keyFor($ns, $site, 'map', $map), $eh, '');
                 }
                 if ($index !== null) {
                     $kv->hSet(EventStore::keyFor($ns, $site, 'ix', $index), $member, '');
@@ -59,8 +62,8 @@ final class Replay
             if ($index !== null) {
                 $kv->hSet(EventStore::keyFor($ns, $site, 'ix', $index), $member, '1');
             }
-            if ($map !== null && isset($doc['email'])) {
-                $kv->hSet(EventStore::keyFor($ns, $site, 'map', $map), hash('sha256', (string)$doc['email']), $x['id']);
+            if ($map !== null && $eh !== null) {
+                $kv->hSet(EventStore::keyFor($ns, $site, 'map', $map), $eh, $x['id']);
             }
             $applied++;
         }

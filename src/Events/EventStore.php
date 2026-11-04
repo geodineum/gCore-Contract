@@ -245,6 +245,10 @@ class EventStore
         $secret = array_intersect_key($state, array_flip($sensitive));
         if ($secret !== []) {
             $fields['sx'] = implode(',', array_keys($secret));
+            // the sign-in map's key (the hash it already stores) survives sealing, so a rebuild without STORE's key keeps every login
+            if (is_string($state['email'] ?? null) && $state['email'] !== '') {
+                $fields['eh'] = hash('sha256', $state['email']);
+            }
             // The person the personal fields belong to (an id): `subject`, `customer` or `agent` when the
             // document names one, else the document itself.
             $who = $state['subject'] ?? $state['customer'] ?? $state['agent'] ?? $id;

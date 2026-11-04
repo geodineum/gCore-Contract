@@ -207,9 +207,18 @@ class EventStore
     }
 
     /** Exactly one caller wins a resource until the lease expires or is released. */
+    /** True when taken, false when another holds it; a lock call that errors is `unavailable`, never "busy". */
     public function tryLease(string $site, string $resource, string $token, int $ttlSeconds): bool
     {
-        return (int)$this->kv->fcall('GNODE_LOCK_ACQUIRE', [$resource], [$site, $token, $ttlSeconds]) === 1;
+        try {
+            $r = $this->kv->fcall('GNODE_LOCK_ACQUIRE', [$resource], [$site, $token, $ttlSeconds]);
+        } catch (\Throwable $e) {
+            throw ($this->fail)('unavailable', 'the lock could not be taken: ' . $e->getMessage());
+        }
+        if (!is_int($r) && !(is_string($r) && ctype_digit($r))) {
+            throw ($this->fail)('unavailable', 'the lock could not be taken (the lock function answered ' . var_export($r, true) . ')');
+        }
+        return (int)$r === 1;
     }
 
     public function releaseLease(string $site, string $resource, string $token): bool

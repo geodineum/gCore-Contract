@@ -61,6 +61,8 @@ interface MollieManagerInterface extends ModuleInterface
     /**
      * A redacted view of what is configured: which modes hold a key, the
      * active mode, and a non-reversible fingerprint per key. NEVER the key.
+     * Keys are the site's own: one also held under `{default}` is not used,
+     * and `default_keys` names the modes `{default}` holds a key for.
      */
     public function getCredentialStatus(string $siteId): array;
 
@@ -133,10 +135,10 @@ interface MollieManagerInterface extends ModuleInterface
      *
      * The classic payment webhook body is a single `id` parameter and carries
      * NO signature, so the body is treated as a hint and nothing else: this
-     * method re-fetches the payment from the API and acts on that. When a
-     * webhook secret is configured, an `X-Mollie-Signature` header is verified
-     * (HMAC-SHA256 over the raw body, constant-time compare) and a present but
-     * invalid signature is rejected.
+     * method re-fetches the payment from the API and acts on that. When the
+     * site has a webhook secret of its own, every delivery must carry an
+     * `X-Mollie-Signature` header (HMAC-SHA256 over the raw body, constant-time
+     * compare): a missing or invalid signature is rejected with 400.
      *
      * Mollie retries up to 10 times across 26 hours, so handling is idempotent:
      * the same delivery applied twice leaves one record and fires side effects

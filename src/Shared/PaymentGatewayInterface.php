@@ -61,6 +61,9 @@ interface PaymentGatewayInterface
      *   billing_address, shipping_address  optional {givenName, familyName, email,
      *                   streetAndNumber, postalCode, city, country}; pay-later methods need them
      *
+     * checkout_url is only ever on the provider's own https host; a consumer that renders a
+     * stored one checks it again.
+     *
      * @return array{ok:bool, id:?string, status:?string, checkout_url:?string, error:?string}
      */
     public function startPayment(string $siteId, array $request): array;

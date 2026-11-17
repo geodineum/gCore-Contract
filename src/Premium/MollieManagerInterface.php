@@ -63,6 +63,13 @@ interface MollieManagerInterface extends ModuleInterface
      * active mode, and a non-reversible fingerprint per key. NEVER the key.
      * Keys are the site's own: one also held under `{default}` is not used,
      * and `default_keys` names the modes `{default}` holds a key for.
+     * `payee_profile` is the pinned Mollie profile (pfl_…) or null.
+     *
+     * The payee is pinned by the host's code (initialize config
+     * `payee_profile`), never by stored config: a payment whose `profileId`
+     * differs is cancelled at creation and never applied on a re-read, and
+     * live mode without a pin takes no payment. A changed key is told to the
+     * operators by its fingerprint.
      */
     public function getCredentialStatus(string $siteId): array;
 

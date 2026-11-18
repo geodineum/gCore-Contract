@@ -40,8 +40,12 @@ interface MollieManagerInterface extends ModuleInterface
      * it, so rotating a key invalidates in-flight idempotency — rotate
      * between batches, not during one.
      *
+     * A live key is refused on any DTAP tier but production (the host's
+     * `environment`, else its gNode client's; never stored config): a preview
+     * or staging copy shares the site id, and with it the site's secrets.
+     *
      * @param string $mode 'test' or 'live'
-     * @return bool False if the mode is unknown or the key fails its shape check
+     * @return bool False if the mode is unknown, the key fails its shape check, or a live key is not on production
      */
     public function setApiKey(string $siteId, string $mode, string $apiKey): bool;
 
@@ -54,7 +58,8 @@ interface MollieManagerInterface extends ModuleInterface
     /**
      * Select the active mode. Refuses 'live' when no live key is stored —
      * a site that believes it is live and is not takes real orders it
-     * never charges for.
+     * never charges for — when the host's code pins no payee
+     * (`payee_profile`), and on any tier but production.
      */
     public function setMode(string $siteId, string $mode): bool;
 
@@ -63,7 +68,8 @@ interface MollieManagerInterface extends ModuleInterface
      * active mode, and a non-reversible fingerprint per key. NEVER the key.
      * Keys are the site's own: one also held under `{default}` is not used,
      * and `default_keys` names the modes `{default}` holds a key for.
-     * `payee_profile` is the pinned Mollie profile (pfl_…) or null.
+     * `payee_profile` is the pinned Mollie profile (pfl_…) or null;
+     * `environment` the DTAP tier this copy runs in, or null.
      *
      * The payee is pinned by the host's code (initialize config
      * `payee_profile`), never by stored config: a payment whose `profileId`
